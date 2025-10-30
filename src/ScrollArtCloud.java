@@ -2,34 +2,76 @@ import java.util.Random;
 
 public class ScrollArtCloud {
     static final int WIDTH = getTerminalWidth() - 1;
-    static final int Cloud_WIDTH = 12;
-    static final int Cloud_HEIGHT = 13;
+    static final int MAX_WIDTH = 38;
+    static final int MAX_HEIGHT = 15;
     static final Random rand = new Random();
 
     public static void main(String[] args) throws InterruptedException {
-        char[][] nextRows = new char[Cloud_HEIGHT][WIDTH]; 
+        char[][] nextRows = new char[MAX_HEIGHT][WIDTH];
         for (int i = 0; i < nextRows.length; i++) {
             nextRows[i] = emptyRow();
         }
-char[][] img = getCloud();
-        while (true) {
-            for (int x = 0; x < WIDTH - Cloud_WIDTH; x++) {
-                if (rand.nextDouble() < 0.001) {
-                    if (rand.nextDouble() < 0.5)
-                        img = getCloud();
-                    
-                    
-                    for (int iy = 0; iy < Cloud_HEIGHT; iy++) {
-                        for (int ix = 0; ix < Cloud_WIDTH; ix++) {
+        String butterfly = """
+      ♥♥        ♥♥  
+     ♥  ♥      ♥  ♥ 
+     ♥ o ♥    ♥ o ♥ 
+      ♥   ♥  ♥   ♥  
+       ♥-  ♥♥  -♥   
+      ♥   ♥  ♥   ♥  
+     ♥ o ♥    ♥ o ♥ 
+     ♥  ♥      ♥  ♥ 
+      ♥♥        ♥♥  
+                """;
+            AsciiArt butterflyArt = new AsciiArt(butterfly);
+        String mouse = """
+                 ●---●  
+                 (@^@)  
+                  / \\
+               /(     )\\
+               ^  -╥-  ^
+                 (-╥-)  
+                 //-\\\\  
+                 ^   ^ 
+                """;
+                AsciiArt mouseArt = new AsciiArt(mouse);
+        String sword = """
+                   |-|
+                   | |
+                   | |
+                 -------                    |\\  ||  /|
+                |\\\\\\\\\\\\\\|                   | \\ || / |
+                 -------                    |  \\||/  |
+                   | |                      |   \\/   |
+                   | |                      |   /\\   |
+                   |||                      |  /||\\  |
+                   |||                      | / || \\ |
+                   |||                      |/  ||  \\|
+                   \\|/                      \\\\_______/
+                       """;
+        AsciiArt swordArt = new AsciiArt(sword);
+    
+        AsciiArt[] images = { new AsciiArt(getCloud()), swordArt, mouseArt,butterflyArt};
+        int counter = 0;
+        char[] prevRow = nextRows[0];
+        while (counter < 1) {
+            AsciiArt art = images[rand.nextInt(images.length)];
+            for (int x = 0; x < WIDTH - art.width; x += 38) {
+                if (isEmptyRow(prevRow) && rand.nextDouble() < 0.1) {
+
+                    char[][] img = art.getImg();
+
+                    for (int iy = 0; iy < art.height; iy++) {
+                        for (int ix = 0; ix < art.width; ix++) {
                             nextRows[iy][x + ix] = img[iy][ix];
                         }
                     }
                 }
             }
-            
+
             System.out.println(new String(nextRows[0]));
+            prevRow = nextRows[0];
             shiftRowsUp(nextRows);
-            Thread.sleep(40); 
+            Thread.sleep(40);
         }
     }
 
@@ -38,6 +80,15 @@ char[][] img = getCloud();
             nextRows[i - 1] = nextRows[i];
         }
         nextRows[nextRows.length - 1] = emptyRow();
+    }
+
+    static boolean isEmptyRow(char[] row) {
+        for (int i = 0; i < WIDTH; i++) {
+            if (row[i] != ' ') {
+                return false;
+            }
+        }
+        return true;
     }
 
     static char[] emptyRow() {
@@ -49,13 +100,13 @@ char[][] img = getCloud();
     }
 
     static char[][] getCloud() {
-        char[][] img = new char[Cloud_HEIGHT][Cloud_WIDTH];
-        for (int y = 0; y < Cloud_HEIGHT; y++) {
-            for (int x = 0; x < Cloud_WIDTH; x++) {
+        char[][] img = new char[MAX_HEIGHT][MAX_WIDTH];
+        for (int y = 0; y < MAX_HEIGHT; y++) {
+            for (int x = 0; x < MAX_WIDTH; x++) {
                 img[y][x] = ' ';
             }
         }
-     
+
         img[0][4] = '_';
         img[0][5] = '_';
         img[0][6] = '_';
@@ -145,20 +196,19 @@ char[][] img = getCloud();
         return img;
     }
 
-
     public static int getTerminalWidth() {
         String os = System.getProperty("os.name").toLowerCase();
 
         if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
             return getUnixTerminalWidth();
         } else {
-            return 80; 
+            return 80;
         }
     }
 
     private static int getUnixTerminalWidth() {
         try {
-           
+
             String columns = System.getenv("COLUMNS");
             if (columns != null && !columns.isEmpty()) {
                 return Integer.parseInt(columns);
@@ -172,12 +222,12 @@ char[][] img = getCloud();
             String output = reader.readLine();
             if (output != null && !output.isEmpty()) {
                 String[] parts = output.trim().split(" ");
-                return Integer.parseInt(parts[1]); 
+                return Integer.parseInt(parts[1]);
             }
         } catch (Exception ignored) {
-        
+
         }
-        return 80; 
+        return 80;
     }
 
 }
