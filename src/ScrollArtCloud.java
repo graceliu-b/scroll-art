@@ -20,7 +20,7 @@ public class ScrollArtCloud {
       ♥   ♥  ♥   ♥  
      ♥ o ♥    ♥ o ♥ 
      ♥  ♥      ♥  ♥ 
-      ♥♥        ♥♥  
+      ♥♥        ♥♥ CW
                 """;
             AsciiArt butterflyArt = new AsciiArt(butterfly);
         String mouse = """
@@ -31,22 +31,22 @@ public class ScrollArtCloud {
                ^  -╥-  ^
                  (-╥-)  
                  //-\\\\  
-                 ^   ^ 
+                 ^   ^ KB
                 """;
                 AsciiArt mouseArt = new AsciiArt(mouse);
         String sword = """
                    |-|
                    | |
                    | |
-                 -------                    |\\  ||  /|
-                |\\\\\\\\\\\\\\|                   | \\ || / |
-                 -------                    |  \\||/  |
-                   | |                      |   \\/   |
-                   | |                      |   /\\   |
-                   |||                      |  /||\\  |
-                   |||                      | / || \\ |
-                   |||                      |/  ||  \\|
-                   \\|/                      \\\\_______/
+                 -------            |\\  ||  /|
+                |\\\\\\\\\\\\\\|           | \\ || / |
+                 -------            |  \\||/  |
+                   | |              |   \\/   |
+                   | |              |   /\\   |
+                   |||              |  /||\\  |
+                   |||              | / || \\ |
+                   |||              |/  ||  \\|
+                   \\|/       TK     \\\\_______/
                        """;
         AsciiArt swordArt = new AsciiArt(sword);
     
@@ -188,10 +188,7 @@ public class ScrollArtCloud {
         img[11][10] = '_';
         img[11][11] = '|';
         img[12][7] = 'G';
-        img[12][8] = 'r';
-        img[12][9] = 'a';
-        img[12][10] = 'c';
-        img[12][11] = 'e';
+        img[12][8] = 'L';
 
         return img;
     }
